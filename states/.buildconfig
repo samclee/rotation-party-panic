@@ -1,0 +1,10 @@
+[default]
+name=Default
+runtime=host
+config-opts=
+run-opts=
+prefix=/home/ed/.cache/gnome-builder/install/states/host
+app-id=
+postbuild=
+prebuild=
+default=true

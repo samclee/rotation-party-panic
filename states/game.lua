@@ -19,12 +19,12 @@ init_time = 10
 time_left = 0
 
 function game:init()
-	walls = {Wall:new(0, 0, wall_w, sh), 
+	walls = {Wall:new(0, 0, wall_w, sh),
 				Wall:new(sw - wall_w, 0, wall_w, sh),
 				Wall:new(0, 0, sw, wall_w),
 				Wall:new(0, sh - wall_w, sw, wall_w)}
 	player = Player((sw - pd) / 2, (sh - pd) / 2, pd, pd, 7)
-	
+
 	spawning = true
 	Timer.every(1, addOrb)
 	Timer.every(1, decTime)
@@ -32,6 +32,8 @@ function game:init()
 end
 
 function game:enter()
+	music = la.newSource("assets/sounds/main.ogg", "stream")
+	music:play()
 	lm.setRandomSeed(os.time())
 	player.vel.x, player.vel.y = 0, 0
 	player:teleport((sw - pd) / 2, (sh - pd) / 2)
@@ -60,10 +62,10 @@ function game:update(dt)
 	if time_left == 0 then
 		gamestate.switch(states.results, scores)
 	end
-	
+
 	-- update player
 	player:update(dt, scores)
-	
+
 	-- update orbs
 	for i, o in pairs(orbs) do
 		if o.dead then
