@@ -34,15 +34,15 @@ sh = 600
 
 debug = true
 function draw_bump()
-	if debug then
-		local items, len = wld:getItems()
-		for i=1,len do
-			local item = items[i]
-			local wx,wy,ww,wh = wld:getRect(item)
-			lg.setColor(0, 1, 0)
-			lg.rectangle('line',wx,wy,ww,wh)
-		end
-	end
+  if debug then
+    local items, len = wld:getItems()
+    for i = 1, len do
+      local item = items[i]
+      local wx, wy, ww, wh = wld:getRect(item)
+      lg.setColor(0, 1, 0)
+      lg.rectangle('line', wx, wy, ww, wh)
+    end
+  end
 end -- for debugging
 
 -- states
@@ -54,8 +54,8 @@ states.game = require 'states.game'
 states.results = require 'states.results'
 
 function love.load()
-	gamestate.registerEvents()
-	gamestate.switch(states.title)
+  gamestate.registerEvents()
+  gamestate.switch(states.title)
 end
 
 function love.keypressed(k)
