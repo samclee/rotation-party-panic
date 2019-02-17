@@ -1,7 +1,7 @@
 local results = {}
 
-function results:enter(from, scores)
-  self.scores = scores
+function results:enter(from, score)
+  self.score = score
   self.statuses = {'open', 'open', 'open', 'open'}
 end
 
@@ -30,10 +30,10 @@ function results:draw()
   lg.printf('Results', 5, 65, 800, 'center')
   lg.setColor(0, 0, 0)
   lg.printf('Results', 0, 70, 800, 'center')
-  for p = 1, numberOfPlayers do
-    lg.printf('Player ' .. p .. ': ' .. self.scores[p], 0, 200 + p * 50, 800, 'center')
-  end
+  lg.printf('Score: ' .. self.score, 0, 140, 800, 'center')
 
+  lg.setFont(fonts.med)
+  lg.printf('Hold all to reset!', 0, 330, 800, 'center')
   draw_sel(self.statuses, numberOfPlayers)
 end
 

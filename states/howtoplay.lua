@@ -25,6 +25,12 @@ end
 function howtoplay:draw()
 	lg.setBackgroundColor(colors.powderblue)
 	lg.setColor(0, 0, 0)
+
+
+	lg.setFont(fonts.med)
+	lg.printf('Hold all to start!', 0, 330, 800, 'center')
+	draw_sel(self.statuses, numberOfPlayers)
+
 	draw_sel(self.statuses, numberOfPlayers)
 end
 

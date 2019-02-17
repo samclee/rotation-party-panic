@@ -1,6 +1,5 @@
 local game = {}
 
-local scores = {0, 0, 0, 0}
 local pd = 60
 local wall_w = 10
 local od = 40
@@ -11,7 +10,6 @@ tick_time = 1 / 70
 accum = 0.0
 
 -- orb spawning
-to_spawn = 1
 spawning = false
 
 -- countdown
@@ -29,28 +27,6 @@ function game:init()
   Timer.every(1, addOrb)
   Timer.every(1, decTime)
   orbs = {}
-
-  --depending on how many players there are, it will print a different amount of scores
-  if numberOfPlayers == 1 then
-    drawScores = function()
-      lg.print('Score '..scores[1]..'')
-    end
-  end
-  if numberOfPlayers == 2 then
-    drawScores = function()
-      lg.print('Scores '..scores[1]..' '..scores[2]..' ')
-    end
-  end
-  if numberOfPlayers == 3 then
-    drawScores = function()
-      lg.print('Scores '..scores[1]..' '..scores[2]..' '..scores[3]..' ')
-    end
-  end
-  if numberOfPlayers == 4 then
-    drawScores = function()
-      lg.print('Scores '..scores[1]..' '..scores[2]..' '..scores[3]..' '..scores[4])
-    end
-  end
 end
 
 function game:enter()
@@ -62,9 +38,9 @@ function game:enter()
   -- reset game
   player.vel.x, player.vel.y = 0, 0
   player.cur_plr = 1
+  player.score = 0
   player:teleport((sw - pd) / 2, (sh - pd) / 2)
   time_left = init_time
-  scores = {0, 0, 0, 0}
   
   -- repopulate board
   for i = 1, 10 do addOrb() end
@@ -87,11 +63,11 @@ function game:update(dt)
 
   -- game end
   if time_left == 0 then
-    gamestate.switch(states.results, scores)
+    gamestate.switch(states.results, player.score)
   end
 
   -- update player
-  player:update(dt, scores)
+  player:update(dt)
 
   -- update orbs
   for i, o in pairs(orbs) do
@@ -121,10 +97,6 @@ function game:draw()
     w:draw()
   end
 
-  -- ui
-  lg.setColor(0, 0, 0)
-  drawScores()
-
   draw_bump()
 end
 
@@ -140,11 +112,10 @@ function findOrbLoc()
 end
 
 function addOrb()
-  if not spawning or #orbs > 20 then return end
+  if not spawning or #orbs > 15 then return end
 
   local nx, ny = findOrbLoc()
-  add(orbs, Orb:new(nx, ny, od, od, to_spawn))
-  to_spawn = (to_spawn % numberOfPlayers) + 1
+  add(orbs, Orb:new(nx, ny, od, od))
 end
 
 function decTime()

@@ -6,6 +6,7 @@ function Player:initialize(x, y, w, h, s)
 	self.id = 'Player'
 	self.vel = vec(0, 0)
 	self.cur_plr = 1
+	self.score = 0
 
 	-- tether shooter
 	self.t_dir = vec(0, 1)
@@ -21,12 +22,12 @@ function Player:initialize(x, y, w, h, s)
 	end
 end
 
-function Player:update(dt, scores)
+function Player:update(dt)
 	-- movement
 	local nPos = self.pos + self.vel
 	local aX, aY, cols, len = wld:move(self, nPos.x, nPos.y, self.filter)
 	self.pos.x, self.pos.y = aX, aY
-	self.t_dir:rotateInplace(math.rad(4))
+	self.t_dir:rotateInplace(math.rad(5))
 
 	-- collision
 	for i=1, len do
@@ -35,11 +36,8 @@ function Player:update(dt, scores)
 			local l = self.vel:len()
 			self.vel = -self.vel
 			
-			for i, s in pairs(scores) do
-				scores[i] = math.ceil(s / 2)
-			end
 		elseif col.other.id == 'Orb' then
-			scores[col.other.num] = scores[col.other.num] + 5
+			self.score = self.score + 1
 			col.other:die()
 		end
 	end
@@ -53,12 +51,14 @@ end
 
 function Player:draw()
 	-- tether
-	lg.setColor(0,1,1)
+	lg.setColor(plr_clrs[self.cur_plr])
 	local c = self:getCenter()
-	local endpt = c + self.t_dir * 100
-	lg.line(c.x, c.y, endpt.x, endpt.y)
+	local ang = self.t_dir:angleTo() - math.pi / 2
+	lg.draw(assets.sprites.arrow, c.x, c.y, ang, 1, 1, 25)
 
 	-- body
+	lg.setColor(0, 0, 0)
+	lg.rectangle('fill', self.pos.x - 5, self.pos.y - 5, self.w + 10, self.h + 10)
 	lg.setColor(plr_clrs[self.cur_plr])
 	lg.rectangle('fill', self:getRect())
 
