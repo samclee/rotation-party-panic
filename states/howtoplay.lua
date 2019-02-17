@@ -10,14 +10,14 @@ end
 
 function howtoplay:update(dt)
   local ready = true
-  self.statuses = {'open', 'open', 'open', 'open'}
 
   for i = 1, numberOfPlayers do
+    if not (lk.isDown(plr_keys[i])) then keysarestilldown = false end
     ready = ready and lk.isDown(plr_keys[i])
-    if lk.isDown(plr_keys[i]) then self.statuses[i] = 'down' end
+    if lk.isDown(plr_keys[i]) then self.statuses[i] = 'down' else self.statuses[i] = 'open' end
   end
 
-  if ready then
+  if ready and not keysarestilldown then
     gamestate.switch(states.game)
   end
 end

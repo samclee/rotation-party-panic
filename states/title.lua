@@ -38,6 +38,7 @@ function title:keypressed(key)
   local n = key_to_num[key]
   if n ~= nil then
     numberOfPlayers = n
+    keysarestilldown = true
     gamestate.switch(states.howtoplay)
   end
 end
