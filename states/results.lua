@@ -3,6 +3,7 @@ local results = {}
 function results:enter(from, score)
   self.score = score
   self.statuses = {'open', 'open', 'open', 'open'}
+  keysarestilldown = true
 end
 
 function results:leave()
@@ -13,11 +14,12 @@ function results:update(dt)
   local ready = true
   self.statuses = {'open', 'open', 'open', 'open'}
   for i = 1, numberOfPlayers do
+    if not (lk.isDown(plr_keys[i])) then keysarestilldown = false end
     ready = ready and lk.isDown(plr_keys[i])
     if lk.isDown(plr_keys[i]) then self.statuses[i] = 'down' end
   end
 
-  if ready then
+  if ready and not keysarestilldown then
     gamestate.switch(states.title)
   end
 end
