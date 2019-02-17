@@ -22,7 +22,7 @@ wld = bump.newWorld()
 require 'libs.stuff'
 plr_keys = {'q', 'w', 'e', 'r'}
 key_to_num = {}
-for i,k in ipairs(plr_keys) do
+for i, k in ipairs(plr_keys) do
   key_to_num[k] = i
 end
 plr_clrs = {colors.orange, colors.green, colors.blue, colors.purple}
@@ -61,8 +61,8 @@ states.results = require 'states.results'
 
 -- visuals
 fonts = {med = assets.fonts.droid(64),
-          big = assets.fonts.droid(86),
-          bigger = assets.fonts.droid(128)}
+  big = assets.fonts.droid(86),
+bigger = assets.fonts.droid(128)}
 fw = {big = fonts.big:getWidth('A')}
 btn = {open = assets.sprites.open, down = assets.sprites.down}
 
@@ -75,7 +75,7 @@ function draw_btn(x, y, state, num)
 
   lg.setFont(fonts.big)
   lg.setColor(0, 0, 0)
-  lg.print(string.upper(plr_keys[num]), x + (120 - fw.big) / 2, y + offset -6)
+  lg.print(string.upper(plr_keys[num]), x + (120 - fw.big) / 2, y + offset - 6)
 end
 
 function draw_sel(statuses, num)
