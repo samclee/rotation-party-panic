@@ -1,13 +1,12 @@
 local title = {}
 
 function title:enter()
-  --music = la.newSource("assets/sounds/title.ogg", "stream")
-  --music:setLooping(true)
-  --music:play()
+  music = love.audio.newSource("assets/sounds/title.ogg", "stream")
+  music:setLooping(true)
+  music:play()
 end
 
 function title:leave()
-  --music:stop()
 end
 
 function title:update(dt)

@@ -5,7 +5,7 @@ function howtoplay:enter()
 end
 
 function howtoplay:leave()
-
+  music:stop()
 end
 
 function howtoplay:update(dt)
