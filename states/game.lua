@@ -28,24 +28,25 @@ function game:init()
   Timer.every(1, addOrb)
   Timer.every(1, decTime)
   orbs = {}
-  hzds = {Hazard:new(10, 150, hd, hd), 
-          Hazard:new(20, 300, hd, hd), 
-          Hazard:new(20, 450, hd, hd)}
+  hzds = {Hazard:new(10, 150, hd, hd),
+    Hazard:new(20, 300, hd, hd),
+  Hazard:new(20, 450, hd, hd)}
 end
 
 function game:enter()
   lg.setBackgroundColor(colors.beige)
   music = la.newSource("assets/sounds/main.ogg", "stream")
   music:play()
+  music:setLooping(true)
   lm.setRandomSeed(os.time())
-  
+
   -- reset game
   player.vel.x, player.vel.y = 0, 0
   player.cur_plr = 1
   player.score = 0
   player:teleport((sw - pd) / 2, (sh - pd) / 2)
   time_left = init_time
-  
+
   -- repopulate board
   for i = 1, 10 do addOrb() end
 end
@@ -54,6 +55,7 @@ function game:leave()
   for _, orb in pairs(orbs) do
     orb:die()
   end
+  music:stop()
 end
 
 function game:update(dt)
@@ -145,7 +147,7 @@ end
 function game:keypressed(k)
   player:accelerate(k)
   if k == 'space' then
-    for k,v in pairs(hzds) do
+    for k, v in pairs(hzds) do
       print(v.pos)
     end
   end
