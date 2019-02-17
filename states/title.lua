@@ -16,26 +16,28 @@ end
 
 function title:draw()
   lg.setBackgroundColor(colors.pink)
+
+  lg.setFont(fonts.big)
+  lg.setColor(1, 1, 1)
+  lg.printf('Tether Party Panic', 5, 95, 800, 'center')
   lg.setColor(0, 0, 0)
-  lg.printf('Tether Party Panic', 0, 200, 800, 'center')
-  lg.printf('Press a key according to how many players you want, 1-4', 0, 400, 800, 'center')
+  lg.printf('Tether Party Panic', 0, 100, 800, 'center')
+
+  lg.setFont(fonts.med)
+  lg.printf('PLAYER SELECT', 0, 270, 800, 'center')
+
+  for i = 1, 4 do
+    local nx = 200 * i - 100 - 14
+    lg.setFont(fonts.med)
+    lg.print(i, nx, 350)
+  end
+  draw_sel({'open', 'open', 'open', 'open'}, 4)
 end
 
 function title:keypressed(key)
-  if key == "1" then
-    numberOfPlayers = 1
-    gamestate.switch(states.howtoplay)
-  end
-  if key == "2" then
-    numberOfPlayers = 2
-    gamestate.switch(states.howtoplay)
-  end
-  if key == "3" then
-    numberOfPlayers = 3
-    gamestate.switch(states.howtoplay)
-  end
-  if key == "4" then
-    numberOfPlayers = 4
+  local n = key_to_num[key]
+  if n ~= nil then
+    numberOfPlayers = n
     gamestate.switch(states.howtoplay)
   end
 end

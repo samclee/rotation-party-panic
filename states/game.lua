@@ -2,7 +2,7 @@ local game = {}
 
 local scores = {0, 0, 0, 0}
 local pd = 60
-local wall_w = 20
+local wall_w = 10
 local od = 40
 local walls, player, orbs
 
@@ -23,7 +23,7 @@ function game:init()
     Wall:new(sw - wall_w, 0, wall_w, sh),
     Wall:new(0, 0, sw, wall_w),
   Wall:new(0, sh - wall_w, sw, wall_w)}
-  player = Player((sw - pd) / 2, (sh - pd) / 2, pd, pd, 7)
+  player = Player((sw - pd) / 2, (sh - pd) / 2, pd, pd, 12)
 
   spawning = true
   Timer.every(1, addOrb)
@@ -54,13 +54,19 @@ function game:init()
 end
 
 function game:enter()
+  lg.setBackgroundColor(colors.beige)
   music = la.newSource("assets/sounds/main.ogg", "stream")
   music:play()
   lm.setRandomSeed(os.time())
+  
+  -- reset game
   player.vel.x, player.vel.y = 0, 0
+  player.cur_plr = 1
   player:teleport((sw - pd) / 2, (sh - pd) / 2)
   time_left = init_time
   scores = {0, 0, 0, 0}
+  
+  -- repopulate board
   for i = 1, 10 do addOrb() end
 end
 
@@ -71,7 +77,6 @@ function game:leave()
 end
 
 function game:update(dt)
-  Timer.update(dt)
 
   -- frame correction
   accum = accum + dt
@@ -97,7 +102,11 @@ function game:update(dt)
 end
 
 function game:draw()
-  lg.setBackgroundColor(colors.beige)
+  -- timer
+  lg.setColor(0, 0, 0)
+  lg.setFont(fonts.bigger)
+  local time_w = fonts.bigger:getWidth(tostring(time_left))
+  lg.print(time_left, (sw - time_w) / 2, 100)
 
   -- orbs
   for _, o in pairs(orbs) do
@@ -115,7 +124,6 @@ function game:draw()
   -- ui
   lg.setColor(0, 0, 0)
   drawScores()
-  lg.print('Time: ' .. time_left, 0, 30)
 
   draw_bump()
 end
@@ -136,7 +144,7 @@ function addOrb()
 
   local nx, ny = findOrbLoc()
   add(orbs, Orb:new(nx, ny, od, od, to_spawn))
-  to_spawn = (to_spawn % 4) + 1
+  to_spawn = (to_spawn % numberOfPlayers) + 1
 end
 
 function decTime()
@@ -147,8 +155,6 @@ end
 
 function game:keypressed(k)
   player:accelerate(k)
-
-  if k == 'n' then gamestate.switch(states.results, scores) end
 end
 
 

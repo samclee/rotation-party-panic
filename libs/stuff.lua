@@ -15,3 +15,7 @@ end
 function del(tbl, val)
 	table.remove(tbl, val)
 end
+
+function wid(s)
+
+end

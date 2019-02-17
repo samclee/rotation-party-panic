@@ -65,13 +65,14 @@ function Player:draw()
 	-- indicator
 	lg.setColor(0, 0, 0)
 	local c = self:getCenter()
-	lg.print(plr_keys[self.cur_plr], c.x - 10, c.y - 10)
+	lg.setFont(fonts.med)
+	lg.print(string.upper(plr_keys[self.cur_plr]), self.pos.x + self.w / 4, self.pos.y)
 end
 
 function Player:accelerate(k)
 	if k == plr_keys[self.cur_plr] then
-		self.vel = self.vel + self.t_dir * (self.spd + lm.random(1,5))
-		self.cur_plr = (self.cur_plr % 4) + 1
+		self.vel = self.vel + self.t_dir * self.spd
+		self.cur_plr = (self.cur_plr % numberOfPlayers) + 1
 	end
 end
 
