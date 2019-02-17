@@ -6,7 +6,7 @@ function Wall:initialize(x, y, w, h)
 
 	wld:add(self, self:getRect())
 	self.filter = function(item, other)
-		if other.id == 'Player' then
+		if other.id == 'Player' or other.id == 'Hazard' then
 			return 'bounce'
 		end
 	end

@@ -36,8 +36,9 @@ AABB = require 'classes.AABB'
 Wall = require 'classes.Wall'
 Player = require 'classes.Player'
 Orb = require 'classes.Orb'
+Hazard = require 'classes.Hazard'
 
-debug = true
+debug = false
 function draw_bump()
   if debug then
     local items, len = wld:getItems()

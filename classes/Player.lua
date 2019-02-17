@@ -7,6 +7,7 @@ function Player:initialize(x, y, w, h, s)
 	self.vel = vec(0, 0)
 	self.cur_plr = 1
 	self.score = 0
+	self.rot = 5
 
 	-- tether shooter
 	self.t_dir = vec(0, 1)
@@ -16,7 +17,7 @@ function Player:initialize(x, y, w, h, s)
 	self.filter = function(item, other)
 		if other.id == 'Wall' then
 			return 'bounce'
-		elseif other.id == 'Orb' then
+		elseif other.id == 'Orb' or other.id == 'Hazard' then
 			return 'cross'
 		end
 	end
@@ -27,7 +28,7 @@ function Player:update(dt)
 	local nPos = self.pos + self.vel
 	local aX, aY, cols, len = wld:move(self, nPos.x, nPos.y, self.filter)
 	self.pos.x, self.pos.y = aX, aY
-	self.t_dir:rotateInplace(math.rad(5))
+	self.t_dir:rotateInplace(math.rad(self.rot))
 
 	-- collision
 	for i=1, len do
@@ -35,10 +36,12 @@ function Player:update(dt)
 		if col.other.id == 'Wall' then
 			local l = self.vel:len()
 			self.vel = -self.vel
-			
 		elseif col.other.id == 'Orb' then
 			self.score = self.score + 1
 			col.other:die()
+		elseif col.other.id == 'Hazard' then
+			col.other:reset()
+			self.score = math.max(0, self.score - 3)
 		end
 	end
 
@@ -73,6 +76,7 @@ function Player:accelerate(k)
 	if k == plr_keys[self.cur_plr] then
 		self.vel = self.vel + self.t_dir * self.spd
 		self.cur_plr = (self.cur_plr % numberOfPlayers) + 1
+		self.rot = -self.rot
 	end
 end
 

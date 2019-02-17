@@ -3,7 +3,8 @@ local game = {}
 local pd = 60
 local wall_w = 10
 local od = 40
-local walls, player, orbs
+local hd = 40
+local walls, player, orbs, hzds
 
 --framerate correction
 tick_time = 1 / 70
@@ -13,7 +14,7 @@ accum = 0.0
 spawning = false
 
 -- countdown
-init_time = 10
+init_time = 30
 time_left = 0
 
 function game:init()
@@ -27,6 +28,9 @@ function game:init()
   Timer.every(1, addOrb)
   Timer.every(1, decTime)
   orbs = {}
+  hzds = {Hazard:new(10, 150, hd, hd), 
+          Hazard:new(20, 300, hd, hd), 
+          Hazard:new(20, 450, hd, hd)}
 end
 
 function game:enter()
@@ -75,18 +79,32 @@ function game:update(dt)
       table.remove(orbs, i)
     end
   end
+
+  -- update orbs
+  for i, h in pairs(hzds) do
+    h:update()
+  end
 end
 
 function game:draw()
   -- timer
   lg.setColor(0, 0, 0)
+  lg.setFont(fonts.big)
+  lg.print('Time left: '..time_left, 30, 30)
+
+  -- points
   lg.setFont(fonts.bigger)
-  local time_w = fonts.bigger:getWidth(tostring(time_left))
-  lg.print(time_left, (sw - time_w) / 2, 100)
+  local pw = fonts.bigger:getWidth(tostring(player.score))
+  lg.print(player.score, (sw - pw) / 2, 100)
 
   -- orbs
   for _, o in pairs(orbs) do
     o:draw()
+  end
+
+  -- hazards
+  for _, h in pairs(hzds) do
+    h:draw()
   end
 
   -- player
@@ -126,6 +144,11 @@ end
 
 function game:keypressed(k)
   player:accelerate(k)
+  if k == 'space' then
+    for k,v in pairs(hzds) do
+      print(v.pos)
+    end
+  end
 end
 
 
