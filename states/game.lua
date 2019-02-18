@@ -22,7 +22,7 @@ function game:init()
     Wall:new(sw - wall_w, 0, wall_w, sh),
     Wall:new(0, 0, sw, wall_w),
   Wall:new(0, sh - wall_w, sw, wall_w)}
-  player = Player((sw - pd) / 2, (sh - pd) / 2, pd, pd, 12)
+  player = Player((sw - pd) / 2, (sh - pd) / 2, pd, pd, 15)
 
   spawning = true
   Timer.every(1, addOrb)
@@ -116,6 +116,13 @@ function game:draw()
   for _, w in pairs(walls) do
     w:draw()
   end
+
+  -- timer
+  lg.setFont(fonts.big)
+  lg.setColor(plr_clrs[player.cur_plr])
+  lg.print('Time left: '..time_left, 33, 27)
+  lg.setColor(0, 0, 0)
+  lg.print('Time left: '..time_left, 30, 30)
 
   draw_bump()
 end

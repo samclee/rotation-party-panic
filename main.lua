@@ -85,6 +85,16 @@ function draw_sel(statuses, num)
   end
 end
 
+-- audio
+ripple = require 'libs.ripple'
+snd = {touch = assets.sounds.touch, 
+        move = assets.sounds.move, 
+        collect = assets.sounds.collect,
+        hit = assets.sounds.hit}
+rsnd = {touch = ripple.newSound(snd.touch),
+        collect = ripple.newSound(snd.collect)}
+
+
 function love.load()
   numberOfPlayers = 1
   gamestate.registerEvents()

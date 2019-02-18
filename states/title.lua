@@ -18,9 +18,9 @@ function title:draw()
 
   lg.setFont(fonts.big)
   lg.setColor(1, 1, 1)
-  lg.printf('Tether Party Panic', 5, 95, 800, 'center')
+  lg.printf('Rotation Party Panic', 5, 95, 800, 'center')
   lg.setColor(0, 0, 0)
-  lg.printf('Tether Party Panic', 0, 100, 800, 'center')
+  lg.printf('Rotation Party Panic', 0, 100, 800, 'center')
 
   lg.setFont(fonts.med)
   lg.printf('PLAYER SELECT', 0, 270, 800, 'center')

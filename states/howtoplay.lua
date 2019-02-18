@@ -46,7 +46,7 @@ function howtoplay:draw()
 end
 
 function howtoplay:keypressed(k)
-
+  rsnd.touch:play()
 end
 
 

@@ -37,11 +37,13 @@ function Player:update(dt)
 			local l = self.vel:len()
 			self.vel = -self.vel
 		elseif col.other.id == 'Orb' then
-			self.score = self.score + 1
+			self.score = self.score + 5
+			rsnd.collect:play()
 			col.other:die()
 		elseif col.other.id == 'Hazard' then
 			col.other:reset()
-			self.score = math.max(0, self.score - 3)
+			self.score = math.max(0, self.score - 5)
+			snd.hit:play()
 		end
 	end
 
@@ -77,6 +79,7 @@ function Player:accelerate(k)
 		self.vel = self.vel + self.t_dir * self.spd
 		self.cur_plr = (self.cur_plr % numberOfPlayers) + 1
 		self.rot = -self.rot
+		snd.move:play()
 	end
 end
 
